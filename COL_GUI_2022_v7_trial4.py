@@ -20,13 +20,14 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import time
 import datetime
-#from twilio.rest import Client
+# from twilio.rest import Client
 import os, logging, chromedriver_autoinstaller
 from selenium.webdriver.chrome.options import Options
 
 import matplotlib.pyplot as plt
-#import numpy as np
-#import pandas as pd
+
+# import numpy as np
+# import pandas as pd
 
 chromedriver_autoinstaller.install(cwd=True)
 option = Options()
@@ -34,11 +35,11 @@ option.add_argument('--disable-infobars')
 option.add_argument('--disable-extensions')
 option.add_experimental_option('prefs', {'profile.default_content_setting_values.notifications': 1})
 browser = webdriver.Chrome()
-#browser.implicitly_wait(60) # newly added not sure if will work
+# browser.implicitly_wait(60) # newly added not sure if will work
 wait = WebDriverWait(browser, 15)
 account_sid = 'ACe8fb424b9e1701dec3d270eabb39d9d3'
 auth_token = 'e7c5cf99e8ceadaca9f5a5dc2ab383fb'
-#client = Client(account_sid, auth_token)
+# client = Client(account_sid, auth_token)
 
 # global variable from old version set to strings for .sendkeys()
 stock = ''
@@ -50,15 +51,15 @@ password = ''
 xpath_price_with_integer = '//*[@id="txtHint1"]/div/table/tbody/tr/td[2]/table/tbody/tr/td[1]/table/tbody/tr[2]/td/table[2]/tbody/tr[%d]/td[3]'
 xpath_price = '//*[@id="txtHint1"]/div/table/tbody/tr/td[2]/table/tbody/tr/td[1]/table/tbody/tr[2]/td/table[2]/tbody/tr[3]/td[3]'
 # ConfigFile_full_path = 'C:\\Users\\john8\\OneDrive\\Desktop\\Python Projects\\STOCKS\\COL\\config_john.txt'
-colCredentials_full_path  = os.getcwd() + "\\colCredentials.txt"
-
-
+colCredentials_full_path = os.getcwd() + "\\colCredentials.txt"
 
 ###################################### START of algo and graph #############################
 # ****************************
 # ***** GUI VARIABLES *****
 # ****************************
-ConfigFile_full_pathArray = [os.getcwd() + "\\config1.txt", os.getcwd() + "\\config2.txt", os.getcwd() + "\\config3.txt", os.getcwd() + "\\config4.txt", os.getcwd() + "\\config5.txt", os.getcwd() + "\\config6.txt"]
+ConfigFile_full_pathArray = [os.getcwd() + "\\config1.txt", os.getcwd() + "\\config2.txt",
+                             os.getcwd() + "\\config3.txt", os.getcwd() + "\\config4.txt",
+                             os.getcwd() + "\\config5.txt", os.getcwd() + "\\config6.txt"]
 configGUIArray = []
 stock1Array = []
 stock2Array = []
@@ -70,26 +71,26 @@ stock6Array = []
 # ****************************
 # ***** WEBSITE VARIABLES *****
 # ****************************
-websitePesobility_MostActive = "https://www.pesobility.com/reports/most-active"   # pesobility website
-websitePSE_MostActive = "https://www.pse.com.ph/most-active/" # pse website
-websitePSEhistoricalData_StockName = "https://www.pse.com.ph/company-information-" # pse link + Stock symbol (i.e. https://www.pse.com.ph/company-information-DITO)
+websitePesobility_MostActive = "https://www.pesobility.com/reports/most-active"  # pesobility website
+websitePSE_MostActive = "https://www.pse.com.ph/most-active/"  # pse website
+websitePSEhistoricalData_StockName = "https://www.pse.com.ph/company-information-"  # pse link + Stock symbol (i.e. https://www.pse.com.ph/company-information-DITO)
 websiteCOL = "https://www.colfinancial.com/ape/Final2/home/HOME_NL_MAIN.asp?p=0"
 
-glob_mostActiveSymbol = []   # most active stocks array container from pesobility / pse
+glob_mostActiveSymbol = []  # most active stocks array container from pesobility / pse
 glob_mostActiveDoubleVolume3DArray = []  # [ [stock1, [average1], [volume1]], [stock2, [average2], [volume2]], [stockX, [averageX], [volumeX]]]
-glob_stockToAnalyze3DArray = [] # [ [stock, [average1], [volume1] ] for manual analysis of any stock code
-glob_counter = 0    # global count of stock code in port to be used for sell_setup
-glob_portfolioStockCodeArray = []   # container for available stock code in portfolio
-glob_portfolioTotalSharesArray = [] # int container for total shares in portfolio
+glob_stockToAnalyze3DArray = []  # [ [stock, [average1], [volume1] ] for manual analysis of any stock code
+glob_counter = 0  # global count of stock code in port to be used for sell_setup
+glob_portfolioStockCodeArray = []  # container for available stock code in portfolio
+glob_portfolioTotalSharesArray = []  # int container for total shares in portfolio
 glob_viewModifyOrderStockCodeArray = []
 glob_viewModifyOrderTargetPriceArray = []
 glob_viewModifyOrderBuyOrSellArray = []
 
 # this 4 will be used in mode checking
-glob_portfolioStockPresentArray = []    # int
-glob_portfolioTotalSharesGreaterVolumeArray = []    # int
-glob_viewModifyOrderStockCodeB1orS1PresentArray = []    # int
-glob_viewModifyOrderStockCodeB2orS2PresentArray = []    # int
+glob_portfolioStockPresentArray = []  # int
+glob_portfolioTotalSharesGreaterVolumeArray = []  # int
+glob_viewModifyOrderStockCodeB1orS1PresentArray = []  # int
+glob_viewModifyOrderStockCodeB2orS2PresentArray = []  # int
 
 # this contains the calculated mode of the 4 arrays above
 glob_calcToDeclVal = []
@@ -97,16 +98,16 @@ glob_calcToDeclVal = []
 # ****************************
 # ***** XPATH PESOBILITY *****
 # ****************************
-pesobility_xpathHeader = '//*[@id="MAIN_BODY"]/div[1]/div/h1' # pesobility Most Active Header
-pesobility_xpathMostActive = '//*[@id="MAIN_BODY"]/div[1]/div/table/tbody/tr[%d]/td[2]/a'   ### pesobility xpath most active first stock code element
+pesobility_xpathHeader = '//*[@id="MAIN_BODY"]/div[1]/div/h1'  # pesobility Most Active Header
+pesobility_xpathMostActive = '//*[@id="MAIN_BODY"]/div[1]/div/table/tbody/tr[%d]/td[2]/a'  ### pesobility xpath most active first stock code element
 
 # ****************************
 # ******** XPATH PSE *********
 # ****************************
-pse_xpathMostActive = '/html/body/div/div/div/div[2]/div/div/table/tbody/tr[%d]/td[2]/a'    # PSE xpath most active first stock code element
+pse_xpathMostActive = '/html/body/div/div/div/div[2]/div/div/table/tbody/tr[%d]/td[2]/a'  # PSE xpath most active first stock code element
 pse_xpathIframeMostActive = '//*[@id="mostActive_"]'  # iframe_MostActive using "PSE"
-pse_xpathHeaderSymbolName = '/html/body/div/div/div/div[2]/div/div/table/thead/tr/th[2]/div'    # pse header symbol
-pse_xpathIframeHistoricalData = '//*[@id="company_infos"]' # ifram historical data
+pse_xpathHeaderSymbolName = '/html/body/div/div/div/div[2]/div/div/table/thead/tr/th[2]/div'  # pse header symbol
+pse_xpathIframeHistoricalData = '//*[@id="company_infos"]'  # ifram historical data
 pse_xpathPageNumberHistoricalData = '//*[@id="page-%d"]'  # page number on historical data (10 data per page)
 pse_xpathFirstVolDataAvailable = '//*[@id="data"]/tbody/tr[%d]/td[7]'
 pse_xpathAveragePriceValue = '//*[@id="data"]/tbody/tr[%d]/td[6]'
@@ -115,25 +116,25 @@ pse_xpathAverageVolValue = '//*[@id="data"]/tbody/tr[%d]/td[7]'
 # ****************************
 # ******** XPATH COL *********
 # ****************************
-col_xpathUser1  = '//*[@id="login"]/div/input[1]'
-col_xpathUser2  = '//*[@id="login"]/div/input[2]'
-col_xpathPass   = '//*[@id="login"]/div/input[3]'
-col_xpathLogIn  = '//*[@id="login"]/div/input[10]'
+col_xpathUser1 = '//*[@id="login"]/div/input[1]'
+col_xpathUser2 = '//*[@id="login"]/div/input[2]'
+col_xpathPass = '//*[@id="login"]/div/input[3]'
+col_xpathLogIn = '//*[@id="login"]/div/input[10]'
 
-col_xpathTradeHeadern = '//*[@id="headern"]'    # Trade-Porfolio-ViewModify Order headern
+col_xpathTradeHeadern = '//*[@id="headern"]'  # Trade-Porfolio-ViewModify Order headern
 
-col_xpathTradeButton = '//*[@id="CT"]/a/font/b' # Trade button
-col_xpathPortfolioButton = '//*[@id="L1_3_4"]/a/font/b' # Portfolio button
-col_xpathStockCodeHeadern = '//*[@id="main"]'   # stock code in portfolio headern
+col_xpathTradeButton = '//*[@id="CT"]/a/font/b'  # Trade button
+col_xpathPortfolioButton = '//*[@id="L1_3_4"]/a/font/b'  # Portfolio button
+col_xpathStockCodeHeadern = '//*[@id="main"]'  # stock code in portfolio headern
 col_xpathBuySellTextInPortfolio_withIntVar = '/html/body/div[2]/table/tbody/tr/td/table[2]/tbody/tr[3]/td/table/tbody/tr[%d]/td[1]/font'  # "BUY" text to count how many stocks in portfoilio tr[3]
-col_xpathPortfolioStockCode_withIntVar = '/html/body/div[2]/table/tbody/tr/td/table[2]/tbody/tr[3]/td/table/tbody/tr[%d]/td[2]/font'    # stock code with INT var tr[3]
+col_xpathPortfolioStockCode_withIntVar = '/html/body/div[2]/table/tbody/tr/td/table[2]/tbody/tr[3]/td/table/tbody/tr[%d]/td[2]/font'  # stock code with INT var tr[3]
 col_xpathPortfolioTotalShares_withIntVar = '/html/body/div[2]/table/tbody/tr/td/table[2]/tbody/tr[3]/td/table/tbody/tr[%d]/td[7]/font'  # total shares with INT var tr[3]
 
-col_xpathViewModifyButton = '//*[@id="L1_3_2"]/a/font/b'	# View/Modify order button
-col_xpathViewModifyStockCodeText = '/html/body/div[1]/table[2]/tbody/tr/td/form/table/tbody/tr/td[1]/font'	# wait "Stock Code" text as go signal to count
-col_xpathViewModifyStockCode_withIntVar = '/html/body/div[1]/table[2]/tbody/tr/td/table/tbody/tr[%d]/td[5]/font'	# 1st Stock code tr[2]
-col_xpathViewModifyPrice_withIntVar = '/html/body/div[1]/table[2]/tbody/tr/td/table/tbody/tr[%d]/td[7]/p/font'	# 1st price tr[2]
-col_xpathViewModifyBNorSN_withIntVar = '/html/body/div[1]/table[2]/tbody/tr/td/table/tbody/tr[%d]/td[6]/font'    # 1st BN or SN tr[2]
+col_xpathViewModifyButton = '//*[@id="L1_3_2"]/a/font/b'  # View/Modify order button
+col_xpathViewModifyStockCodeText = '/html/body/div[1]/table[2]/tbody/tr/td/form/table/tbody/tr/td[1]/font'  # wait "Stock Code" text as go signal to count
+col_xpathViewModifyStockCode_withIntVar = '/html/body/div[1]/table[2]/tbody/tr/td/table/tbody/tr[%d]/td[5]/font'  # 1st Stock code tr[2]
+col_xpathViewModifyPrice_withIntVar = '/html/body/div[1]/table[2]/tbody/tr/td/table/tbody/tr[%d]/td[7]/p/font'  # 1st price tr[2]
+col_xpathViewModifyBNorSN_withIntVar = '/html/body/div[1]/table[2]/tbody/tr/td/table/tbody/tr[%d]/td[6]/font'  # 1st BN or SN tr[2]
 
 
 class Ui_MainWindow(object):
@@ -212,7 +213,7 @@ class Ui_MainWindow(object):
         self.PASSWORD_lineEdit = QtWidgets.QLineEdit(self.frame_6)
         self.PASSWORD_lineEdit.setText("")
         self.PASSWORD_lineEdit.setEchoMode(QtWidgets.QLineEdit.Password)
-        self.PASSWORD_lineEdit.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignVCenter)
+        self.PASSWORD_lineEdit.setAlignment(QtCore.Qt.AlignLeading | QtCore.Qt.AlignLeft | QtCore.Qt.AlignVCenter)
         self.PASSWORD_lineEdit.setObjectName("PASSWORD_lineEdit")
         self.horizontalLayout_3.addWidget(self.PASSWORD_lineEdit)
         self.verticalLayout_2.addWidget(self.frame_6, 0, QtCore.Qt.AlignBottom)
@@ -278,7 +279,7 @@ class Ui_MainWindow(object):
         self.label_16.setAlignment(QtCore.Qt.AlignCenter)
         self.label_16.setObjectName("label_16")
         self.horizontalLayout_6.addWidget(self.label_16)
-        self.verticalLayout_4.addWidget(self.frame_14, 0, QtCore.Qt.AlignHCenter|QtCore.Qt.AlignTop)
+        self.verticalLayout_4.addWidget(self.frame_14, 0, QtCore.Qt.AlignHCenter | QtCore.Qt.AlignTop)
         self.STOCK1_frame = QtWidgets.QFrame(self.frame_8)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Expanding)
         sizePolicy.setHorizontalStretch(0)
@@ -300,61 +301,61 @@ class Ui_MainWindow(object):
         self.label_6 = QtWidgets.QLabel(self.frame_26)
         self.label_6.setMinimumSize(QtCore.QSize(0, 20))
         self.label_6.setMaximumSize(QtCore.QSize(16777215, 20))
-        self.label_6.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
+        self.label_6.setAlignment(QtCore.Qt.AlignRight | QtCore.Qt.AlignTrailing | QtCore.Qt.AlignVCenter)
         self.label_6.setObjectName("label_6")
         self.verticalLayout_10.addWidget(self.label_6)
         self.label_5 = QtWidgets.QLabel(self.frame_26)
         self.label_5.setMinimumSize(QtCore.QSize(0, 20))
         self.label_5.setMaximumSize(QtCore.QSize(16777215, 20))
-        self.label_5.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
+        self.label_5.setAlignment(QtCore.Qt.AlignRight | QtCore.Qt.AlignTrailing | QtCore.Qt.AlignVCenter)
         self.label_5.setObjectName("label_5")
         self.verticalLayout_10.addWidget(self.label_5)
         self.label_4 = QtWidgets.QLabel(self.frame_26)
         self.label_4.setMinimumSize(QtCore.QSize(0, 20))
         self.label_4.setMaximumSize(QtCore.QSize(16777215, 20))
-        self.label_4.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
+        self.label_4.setAlignment(QtCore.Qt.AlignRight | QtCore.Qt.AlignTrailing | QtCore.Qt.AlignVCenter)
         self.label_4.setObjectName("label_4")
         self.verticalLayout_10.addWidget(self.label_4)
         self.label_8 = QtWidgets.QLabel(self.frame_26)
         self.label_8.setMinimumSize(QtCore.QSize(0, 20))
         self.label_8.setMaximumSize(QtCore.QSize(16777215, 20))
-        self.label_8.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
+        self.label_8.setAlignment(QtCore.Qt.AlignRight | QtCore.Qt.AlignTrailing | QtCore.Qt.AlignVCenter)
         self.label_8.setObjectName("label_8")
         self.verticalLayout_10.addWidget(self.label_8)
         self.label_7 = QtWidgets.QLabel(self.frame_26)
         self.label_7.setMinimumSize(QtCore.QSize(0, 20))
         self.label_7.setMaximumSize(QtCore.QSize(16777215, 20))
-        self.label_7.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
+        self.label_7.setAlignment(QtCore.Qt.AlignRight | QtCore.Qt.AlignTrailing | QtCore.Qt.AlignVCenter)
         self.label_7.setObjectName("label_7")
         self.verticalLayout_10.addWidget(self.label_7)
         self.label_9 = QtWidgets.QLabel(self.frame_26)
         self.label_9.setMinimumSize(QtCore.QSize(0, 20))
         self.label_9.setMaximumSize(QtCore.QSize(16777215, 20))
-        self.label_9.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
+        self.label_9.setAlignment(QtCore.Qt.AlignRight | QtCore.Qt.AlignTrailing | QtCore.Qt.AlignVCenter)
         self.label_9.setObjectName("label_9")
         self.verticalLayout_10.addWidget(self.label_9)
         self.label_13 = QtWidgets.QLabel(self.frame_26)
         self.label_13.setMinimumSize(QtCore.QSize(0, 20))
         self.label_13.setMaximumSize(QtCore.QSize(16777215, 20))
-        self.label_13.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
+        self.label_13.setAlignment(QtCore.Qt.AlignRight | QtCore.Qt.AlignTrailing | QtCore.Qt.AlignVCenter)
         self.label_13.setObjectName("label_13")
         self.verticalLayout_10.addWidget(self.label_13)
         self.label_15 = QtWidgets.QLabel(self.frame_26)
         self.label_15.setMinimumSize(QtCore.QSize(0, 20))
         self.label_15.setMaximumSize(QtCore.QSize(16777215, 20))
-        self.label_15.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
+        self.label_15.setAlignment(QtCore.Qt.AlignRight | QtCore.Qt.AlignTrailing | QtCore.Qt.AlignVCenter)
         self.label_15.setObjectName("label_15")
         self.verticalLayout_10.addWidget(self.label_15)
         self.label_12 = QtWidgets.QLabel(self.frame_26)
         self.label_12.setMinimumSize(QtCore.QSize(0, 20))
         self.label_12.setMaximumSize(QtCore.QSize(16777215, 20))
-        self.label_12.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
+        self.label_12.setAlignment(QtCore.Qt.AlignRight | QtCore.Qt.AlignTrailing | QtCore.Qt.AlignVCenter)
         self.label_12.setObjectName("label_12")
         self.verticalLayout_10.addWidget(self.label_12)
         self.label_14 = QtWidgets.QLabel(self.frame_26)
         self.label_14.setMinimumSize(QtCore.QSize(0, 20))
         self.label_14.setMaximumSize(QtCore.QSize(16777215, 20))
-        self.label_14.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
+        self.label_14.setAlignment(QtCore.Qt.AlignRight | QtCore.Qt.AlignTrailing | QtCore.Qt.AlignVCenter)
         self.label_14.setObjectName("label_14")
         self.verticalLayout_10.addWidget(self.label_14)
         self.horizontalLayout_12.addWidget(self.frame_26)
@@ -385,7 +386,7 @@ class Ui_MainWindow(object):
         self.STOCK1_TotalBuy1_label.setMaximumSize(QtCore.QSize(16777215, 20))
         self.STOCK1_TotalBuy1_label.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.STOCK1_TotalBuy1_label.setText("")
-        self.STOCK1_TotalBuy1_label.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignVCenter)
+        self.STOCK1_TotalBuy1_label.setAlignment(QtCore.Qt.AlignLeading | QtCore.Qt.AlignLeft | QtCore.Qt.AlignVCenter)
         self.STOCK1_TotalBuy1_label.setObjectName("STOCK1_TotalBuy1_label")
         self.verticalLayout_11.addWidget(self.STOCK1_TotalBuy1_label)
         self.STOCK1_SELL1_PRICE_lineEdit = QtWidgets.QLineEdit(self.frame_27)
@@ -410,7 +411,7 @@ class Ui_MainWindow(object):
         self.STOCK1_TotalBuy2_label.setMaximumSize(QtCore.QSize(16777215, 20))
         self.STOCK1_TotalBuy2_label.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.STOCK1_TotalBuy2_label.setText("")
-        self.STOCK1_TotalBuy2_label.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignVCenter)
+        self.STOCK1_TotalBuy2_label.setAlignment(QtCore.Qt.AlignLeading | QtCore.Qt.AlignLeft | QtCore.Qt.AlignVCenter)
         self.STOCK1_TotalBuy2_label.setObjectName("STOCK1_TotalBuy2_label")
         self.verticalLayout_11.addWidget(self.STOCK1_TotalBuy2_label)
         self.STOCK1_SELL2_PRICE_lineEdit = QtWidgets.QLineEdit(self.frame_27)
@@ -458,7 +459,7 @@ class Ui_MainWindow(object):
         self.label_18.setAlignment(QtCore.Qt.AlignCenter)
         self.label_18.setObjectName("label_18")
         self.horizontalLayout_7.addWidget(self.label_18)
-        self.verticalLayout_5.addWidget(self.frame_16, 0, QtCore.Qt.AlignHCenter|QtCore.Qt.AlignTop)
+        self.verticalLayout_5.addWidget(self.frame_16, 0, QtCore.Qt.AlignHCenter | QtCore.Qt.AlignTop)
         self.STOCK2_frame = QtWidgets.QFrame(self.frame_9)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Expanding)
         sizePolicy.setHorizontalStretch(0)
@@ -480,61 +481,61 @@ class Ui_MainWindow(object):
         self.label_17 = QtWidgets.QLabel(self.frame_28)
         self.label_17.setMinimumSize(QtCore.QSize(0, 20))
         self.label_17.setMaximumSize(QtCore.QSize(16777215, 20))
-        self.label_17.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
+        self.label_17.setAlignment(QtCore.Qt.AlignRight | QtCore.Qt.AlignTrailing | QtCore.Qt.AlignVCenter)
         self.label_17.setObjectName("label_17")
         self.verticalLayout_12.addWidget(self.label_17)
         self.label_24 = QtWidgets.QLabel(self.frame_28)
         self.label_24.setMinimumSize(QtCore.QSize(0, 20))
         self.label_24.setMaximumSize(QtCore.QSize(16777215, 20))
-        self.label_24.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
+        self.label_24.setAlignment(QtCore.Qt.AlignRight | QtCore.Qt.AlignTrailing | QtCore.Qt.AlignVCenter)
         self.label_24.setObjectName("label_24")
         self.verticalLayout_12.addWidget(self.label_24)
         self.label_26 = QtWidgets.QLabel(self.frame_28)
         self.label_26.setMinimumSize(QtCore.QSize(0, 20))
         self.label_26.setMaximumSize(QtCore.QSize(16777215, 20))
-        self.label_26.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
+        self.label_26.setAlignment(QtCore.Qt.AlignRight | QtCore.Qt.AlignTrailing | QtCore.Qt.AlignVCenter)
         self.label_26.setObjectName("label_26")
         self.verticalLayout_12.addWidget(self.label_26)
         self.label_27 = QtWidgets.QLabel(self.frame_28)
         self.label_27.setMinimumSize(QtCore.QSize(0, 20))
         self.label_27.setMaximumSize(QtCore.QSize(16777215, 20))
-        self.label_27.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
+        self.label_27.setAlignment(QtCore.Qt.AlignRight | QtCore.Qt.AlignTrailing | QtCore.Qt.AlignVCenter)
         self.label_27.setObjectName("label_27")
         self.verticalLayout_12.addWidget(self.label_27)
         self.label_22 = QtWidgets.QLabel(self.frame_28)
         self.label_22.setMinimumSize(QtCore.QSize(0, 20))
         self.label_22.setMaximumSize(QtCore.QSize(16777215, 20))
-        self.label_22.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
+        self.label_22.setAlignment(QtCore.Qt.AlignRight | QtCore.Qt.AlignTrailing | QtCore.Qt.AlignVCenter)
         self.label_22.setObjectName("label_22")
         self.verticalLayout_12.addWidget(self.label_22)
         self.label_23 = QtWidgets.QLabel(self.frame_28)
         self.label_23.setMinimumSize(QtCore.QSize(0, 20))
         self.label_23.setMaximumSize(QtCore.QSize(16777215, 20))
-        self.label_23.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
+        self.label_23.setAlignment(QtCore.Qt.AlignRight | QtCore.Qt.AlignTrailing | QtCore.Qt.AlignVCenter)
         self.label_23.setObjectName("label_23")
         self.verticalLayout_12.addWidget(self.label_23)
         self.label_21 = QtWidgets.QLabel(self.frame_28)
         self.label_21.setMinimumSize(QtCore.QSize(0, 20))
         self.label_21.setMaximumSize(QtCore.QSize(16777215, 20))
-        self.label_21.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
+        self.label_21.setAlignment(QtCore.Qt.AlignRight | QtCore.Qt.AlignTrailing | QtCore.Qt.AlignVCenter)
         self.label_21.setObjectName("label_21")
         self.verticalLayout_12.addWidget(self.label_21)
         self.label_20 = QtWidgets.QLabel(self.frame_28)
         self.label_20.setMinimumSize(QtCore.QSize(0, 20))
         self.label_20.setMaximumSize(QtCore.QSize(16777215, 20))
-        self.label_20.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
+        self.label_20.setAlignment(QtCore.Qt.AlignRight | QtCore.Qt.AlignTrailing | QtCore.Qt.AlignVCenter)
         self.label_20.setObjectName("label_20")
         self.verticalLayout_12.addWidget(self.label_20)
         self.label_19 = QtWidgets.QLabel(self.frame_28)
         self.label_19.setMinimumSize(QtCore.QSize(0, 20))
         self.label_19.setMaximumSize(QtCore.QSize(16777215, 20))
-        self.label_19.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
+        self.label_19.setAlignment(QtCore.Qt.AlignRight | QtCore.Qt.AlignTrailing | QtCore.Qt.AlignVCenter)
         self.label_19.setObjectName("label_19")
         self.verticalLayout_12.addWidget(self.label_19)
         self.label_25 = QtWidgets.QLabel(self.frame_28)
         self.label_25.setMinimumSize(QtCore.QSize(0, 20))
         self.label_25.setMaximumSize(QtCore.QSize(16777215, 20))
-        self.label_25.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
+        self.label_25.setAlignment(QtCore.Qt.AlignRight | QtCore.Qt.AlignTrailing | QtCore.Qt.AlignVCenter)
         self.label_25.setObjectName("label_25")
         self.verticalLayout_12.addWidget(self.label_25)
         self.horizontalLayout_13.addWidget(self.frame_28)
@@ -565,7 +566,7 @@ class Ui_MainWindow(object):
         self.STOCK2_TotalBuy1_label.setMaximumSize(QtCore.QSize(16777215, 20))
         self.STOCK2_TotalBuy1_label.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.STOCK2_TotalBuy1_label.setText("")
-        self.STOCK2_TotalBuy1_label.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignVCenter)
+        self.STOCK2_TotalBuy1_label.setAlignment(QtCore.Qt.AlignLeading | QtCore.Qt.AlignLeft | QtCore.Qt.AlignVCenter)
         self.STOCK2_TotalBuy1_label.setObjectName("STOCK2_TotalBuy1_label")
         self.verticalLayout_13.addWidget(self.STOCK2_TotalBuy1_label)
         self.STOCK2_SELL1_PRICE_lineEdit = QtWidgets.QLineEdit(self.frame_29)
@@ -590,7 +591,7 @@ class Ui_MainWindow(object):
         self.STOCK2_TotalBuy2_label.setMaximumSize(QtCore.QSize(16777215, 20))
         self.STOCK2_TotalBuy2_label.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.STOCK2_TotalBuy2_label.setText("")
-        self.STOCK2_TotalBuy2_label.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignVCenter)
+        self.STOCK2_TotalBuy2_label.setAlignment(QtCore.Qt.AlignLeading | QtCore.Qt.AlignLeft | QtCore.Qt.AlignVCenter)
         self.STOCK2_TotalBuy2_label.setObjectName("STOCK2_TotalBuy2_label")
         self.verticalLayout_13.addWidget(self.STOCK2_TotalBuy2_label)
         self.STOCK2_SELL2_PRICE_lineEdit = QtWidgets.QLineEdit(self.frame_29)
@@ -638,7 +639,7 @@ class Ui_MainWindow(object):
         self.label_29.setAlignment(QtCore.Qt.AlignCenter)
         self.label_29.setObjectName("label_29")
         self.horizontalLayout_8.addWidget(self.label_29)
-        self.verticalLayout_6.addWidget(self.frame_18, 0, QtCore.Qt.AlignHCenter|QtCore.Qt.AlignTop)
+        self.verticalLayout_6.addWidget(self.frame_18, 0, QtCore.Qt.AlignHCenter | QtCore.Qt.AlignTop)
         self.STOCK3_frame = QtWidgets.QFrame(self.frame_10)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Expanding)
         sizePolicy.setHorizontalStretch(0)
@@ -660,61 +661,61 @@ class Ui_MainWindow(object):
         self.label_28 = QtWidgets.QLabel(self.frame_30)
         self.label_28.setMinimumSize(QtCore.QSize(0, 20))
         self.label_28.setMaximumSize(QtCore.QSize(16777215, 20))
-        self.label_28.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
+        self.label_28.setAlignment(QtCore.Qt.AlignRight | QtCore.Qt.AlignTrailing | QtCore.Qt.AlignVCenter)
         self.label_28.setObjectName("label_28")
         self.verticalLayout_14.addWidget(self.label_28)
         self.label_35 = QtWidgets.QLabel(self.frame_30)
         self.label_35.setMinimumSize(QtCore.QSize(0, 20))
         self.label_35.setMaximumSize(QtCore.QSize(16777215, 20))
-        self.label_35.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
+        self.label_35.setAlignment(QtCore.Qt.AlignRight | QtCore.Qt.AlignTrailing | QtCore.Qt.AlignVCenter)
         self.label_35.setObjectName("label_35")
         self.verticalLayout_14.addWidget(self.label_35)
         self.label_37 = QtWidgets.QLabel(self.frame_30)
         self.label_37.setMinimumSize(QtCore.QSize(0, 20))
         self.label_37.setMaximumSize(QtCore.QSize(16777215, 20))
-        self.label_37.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
+        self.label_37.setAlignment(QtCore.Qt.AlignRight | QtCore.Qt.AlignTrailing | QtCore.Qt.AlignVCenter)
         self.label_37.setObjectName("label_37")
         self.verticalLayout_14.addWidget(self.label_37)
         self.label_38 = QtWidgets.QLabel(self.frame_30)
         self.label_38.setMinimumSize(QtCore.QSize(0, 20))
         self.label_38.setMaximumSize(QtCore.QSize(16777215, 20))
-        self.label_38.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
+        self.label_38.setAlignment(QtCore.Qt.AlignRight | QtCore.Qt.AlignTrailing | QtCore.Qt.AlignVCenter)
         self.label_38.setObjectName("label_38")
         self.verticalLayout_14.addWidget(self.label_38)
         self.label_33 = QtWidgets.QLabel(self.frame_30)
         self.label_33.setMinimumSize(QtCore.QSize(0, 20))
         self.label_33.setMaximumSize(QtCore.QSize(16777215, 20))
-        self.label_33.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
+        self.label_33.setAlignment(QtCore.Qt.AlignRight | QtCore.Qt.AlignTrailing | QtCore.Qt.AlignVCenter)
         self.label_33.setObjectName("label_33")
         self.verticalLayout_14.addWidget(self.label_33)
         self.label_34 = QtWidgets.QLabel(self.frame_30)
         self.label_34.setMinimumSize(QtCore.QSize(0, 20))
         self.label_34.setMaximumSize(QtCore.QSize(16777215, 20))
-        self.label_34.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
+        self.label_34.setAlignment(QtCore.Qt.AlignRight | QtCore.Qt.AlignTrailing | QtCore.Qt.AlignVCenter)
         self.label_34.setObjectName("label_34")
         self.verticalLayout_14.addWidget(self.label_34)
         self.label_32 = QtWidgets.QLabel(self.frame_30)
         self.label_32.setMinimumSize(QtCore.QSize(0, 20))
         self.label_32.setMaximumSize(QtCore.QSize(16777215, 20))
-        self.label_32.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
+        self.label_32.setAlignment(QtCore.Qt.AlignRight | QtCore.Qt.AlignTrailing | QtCore.Qt.AlignVCenter)
         self.label_32.setObjectName("label_32")
         self.verticalLayout_14.addWidget(self.label_32)
         self.label_31 = QtWidgets.QLabel(self.frame_30)
         self.label_31.setMinimumSize(QtCore.QSize(0, 20))
         self.label_31.setMaximumSize(QtCore.QSize(16777215, 20))
-        self.label_31.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
+        self.label_31.setAlignment(QtCore.Qt.AlignRight | QtCore.Qt.AlignTrailing | QtCore.Qt.AlignVCenter)
         self.label_31.setObjectName("label_31")
         self.verticalLayout_14.addWidget(self.label_31)
         self.label_30 = QtWidgets.QLabel(self.frame_30)
         self.label_30.setMinimumSize(QtCore.QSize(0, 20))
         self.label_30.setMaximumSize(QtCore.QSize(16777215, 20))
-        self.label_30.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
+        self.label_30.setAlignment(QtCore.Qt.AlignRight | QtCore.Qt.AlignTrailing | QtCore.Qt.AlignVCenter)
         self.label_30.setObjectName("label_30")
         self.verticalLayout_14.addWidget(self.label_30)
         self.label_36 = QtWidgets.QLabel(self.frame_30)
         self.label_36.setMinimumSize(QtCore.QSize(0, 20))
         self.label_36.setMaximumSize(QtCore.QSize(16777215, 20))
-        self.label_36.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
+        self.label_36.setAlignment(QtCore.Qt.AlignRight | QtCore.Qt.AlignTrailing | QtCore.Qt.AlignVCenter)
         self.label_36.setObjectName("label_36")
         self.verticalLayout_14.addWidget(self.label_36)
         self.horizontalLayout_14.addWidget(self.frame_30)
@@ -745,7 +746,7 @@ class Ui_MainWindow(object):
         self.STOCK3_TotalBuy1_label.setMaximumSize(QtCore.QSize(16777215, 20))
         self.STOCK3_TotalBuy1_label.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.STOCK3_TotalBuy1_label.setText("")
-        self.STOCK3_TotalBuy1_label.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignVCenter)
+        self.STOCK3_TotalBuy1_label.setAlignment(QtCore.Qt.AlignLeading | QtCore.Qt.AlignLeft | QtCore.Qt.AlignVCenter)
         self.STOCK3_TotalBuy1_label.setObjectName("STOCK3_TotalBuy1_label")
         self.verticalLayout_15.addWidget(self.STOCK3_TotalBuy1_label)
         self.STOCK3_SELL1_PRICE_lineEdit = QtWidgets.QLineEdit(self.frame_31)
@@ -770,7 +771,7 @@ class Ui_MainWindow(object):
         self.STOCK3_TotalBuy2_label.setMaximumSize(QtCore.QSize(16777215, 20))
         self.STOCK3_TotalBuy2_label.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.STOCK3_TotalBuy2_label.setText("")
-        self.STOCK3_TotalBuy2_label.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignVCenter)
+        self.STOCK3_TotalBuy2_label.setAlignment(QtCore.Qt.AlignLeading | QtCore.Qt.AlignLeft | QtCore.Qt.AlignVCenter)
         self.STOCK3_TotalBuy2_label.setObjectName("STOCK3_TotalBuy2_label")
         self.verticalLayout_15.addWidget(self.STOCK3_TotalBuy2_label)
         self.STOCK3_SELL2_PRICE_lineEdit = QtWidgets.QLineEdit(self.frame_31)
@@ -832,7 +833,7 @@ class Ui_MainWindow(object):
         self.label_40.setAlignment(QtCore.Qt.AlignCenter)
         self.label_40.setObjectName("label_40")
         self.horizontalLayout_9.addWidget(self.label_40)
-        self.verticalLayout_9.addWidget(self.frame_20, 0, QtCore.Qt.AlignHCenter|QtCore.Qt.AlignTop)
+        self.verticalLayout_9.addWidget(self.frame_20, 0, QtCore.Qt.AlignHCenter | QtCore.Qt.AlignTop)
         self.STOCK4_frame = QtWidgets.QFrame(self.frame_11)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Expanding)
         sizePolicy.setHorizontalStretch(0)
@@ -854,61 +855,61 @@ class Ui_MainWindow(object):
         self.label_39 = QtWidgets.QLabel(self.frame_32)
         self.label_39.setMinimumSize(QtCore.QSize(0, 20))
         self.label_39.setMaximumSize(QtCore.QSize(16777215, 20))
-        self.label_39.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
+        self.label_39.setAlignment(QtCore.Qt.AlignRight | QtCore.Qt.AlignTrailing | QtCore.Qt.AlignVCenter)
         self.label_39.setObjectName("label_39")
         self.verticalLayout_16.addWidget(self.label_39)
         self.label_47 = QtWidgets.QLabel(self.frame_32)
         self.label_47.setMinimumSize(QtCore.QSize(0, 20))
         self.label_47.setMaximumSize(QtCore.QSize(16777215, 20))
-        self.label_47.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
+        self.label_47.setAlignment(QtCore.Qt.AlignRight | QtCore.Qt.AlignTrailing | QtCore.Qt.AlignVCenter)
         self.label_47.setObjectName("label_47")
         self.verticalLayout_16.addWidget(self.label_47)
         self.label_48 = QtWidgets.QLabel(self.frame_32)
         self.label_48.setMinimumSize(QtCore.QSize(0, 20))
         self.label_48.setMaximumSize(QtCore.QSize(16777215, 20))
-        self.label_48.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
+        self.label_48.setAlignment(QtCore.Qt.AlignRight | QtCore.Qt.AlignTrailing | QtCore.Qt.AlignVCenter)
         self.label_48.setObjectName("label_48")
         self.verticalLayout_16.addWidget(self.label_48)
         self.label_49 = QtWidgets.QLabel(self.frame_32)
         self.label_49.setMinimumSize(QtCore.QSize(0, 20))
         self.label_49.setMaximumSize(QtCore.QSize(16777215, 20))
-        self.label_49.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
+        self.label_49.setAlignment(QtCore.Qt.AlignRight | QtCore.Qt.AlignTrailing | QtCore.Qt.AlignVCenter)
         self.label_49.setObjectName("label_49")
         self.verticalLayout_16.addWidget(self.label_49)
         self.label_44 = QtWidgets.QLabel(self.frame_32)
         self.label_44.setMinimumSize(QtCore.QSize(0, 20))
         self.label_44.setMaximumSize(QtCore.QSize(16777215, 20))
-        self.label_44.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
+        self.label_44.setAlignment(QtCore.Qt.AlignRight | QtCore.Qt.AlignTrailing | QtCore.Qt.AlignVCenter)
         self.label_44.setObjectName("label_44")
         self.verticalLayout_16.addWidget(self.label_44)
         self.label_45 = QtWidgets.QLabel(self.frame_32)
         self.label_45.setMinimumSize(QtCore.QSize(0, 20))
         self.label_45.setMaximumSize(QtCore.QSize(16777215, 20))
-        self.label_45.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
+        self.label_45.setAlignment(QtCore.Qt.AlignRight | QtCore.Qt.AlignTrailing | QtCore.Qt.AlignVCenter)
         self.label_45.setObjectName("label_45")
         self.verticalLayout_16.addWidget(self.label_45)
         self.label_43 = QtWidgets.QLabel(self.frame_32)
         self.label_43.setMinimumSize(QtCore.QSize(0, 20))
         self.label_43.setMaximumSize(QtCore.QSize(16777215, 20))
-        self.label_43.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
+        self.label_43.setAlignment(QtCore.Qt.AlignRight | QtCore.Qt.AlignTrailing | QtCore.Qt.AlignVCenter)
         self.label_43.setObjectName("label_43")
         self.verticalLayout_16.addWidget(self.label_43)
         self.label_42 = QtWidgets.QLabel(self.frame_32)
         self.label_42.setMinimumSize(QtCore.QSize(0, 20))
         self.label_42.setMaximumSize(QtCore.QSize(16777215, 20))
-        self.label_42.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
+        self.label_42.setAlignment(QtCore.Qt.AlignRight | QtCore.Qt.AlignTrailing | QtCore.Qt.AlignVCenter)
         self.label_42.setObjectName("label_42")
         self.verticalLayout_16.addWidget(self.label_42)
         self.label_41 = QtWidgets.QLabel(self.frame_32)
         self.label_41.setMinimumSize(QtCore.QSize(0, 20))
         self.label_41.setMaximumSize(QtCore.QSize(16777215, 20))
-        self.label_41.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
+        self.label_41.setAlignment(QtCore.Qt.AlignRight | QtCore.Qt.AlignTrailing | QtCore.Qt.AlignVCenter)
         self.label_41.setObjectName("label_41")
         self.verticalLayout_16.addWidget(self.label_41)
         self.label_46 = QtWidgets.QLabel(self.frame_32)
         self.label_46.setMinimumSize(QtCore.QSize(0, 20))
         self.label_46.setMaximumSize(QtCore.QSize(16777215, 20))
-        self.label_46.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
+        self.label_46.setAlignment(QtCore.Qt.AlignRight | QtCore.Qt.AlignTrailing | QtCore.Qt.AlignVCenter)
         self.label_46.setObjectName("label_46")
         self.verticalLayout_16.addWidget(self.label_46)
         self.horizontalLayout_15.addWidget(self.frame_32)
@@ -939,7 +940,7 @@ class Ui_MainWindow(object):
         self.STOCK4_TotalBuy1_label.setMaximumSize(QtCore.QSize(16777215, 20))
         self.STOCK4_TotalBuy1_label.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.STOCK4_TotalBuy1_label.setText("")
-        self.STOCK4_TotalBuy1_label.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignVCenter)
+        self.STOCK4_TotalBuy1_label.setAlignment(QtCore.Qt.AlignLeading | QtCore.Qt.AlignLeft | QtCore.Qt.AlignVCenter)
         self.STOCK4_TotalBuy1_label.setObjectName("STOCK4_TotalBuy1_label")
         self.verticalLayout_17.addWidget(self.STOCK4_TotalBuy1_label)
         self.STOCK4_SELL1_PRICE_lineEdit = QtWidgets.QLineEdit(self.frame_33)
@@ -964,7 +965,7 @@ class Ui_MainWindow(object):
         self.STOCK4_TotalBuy2_label.setMaximumSize(QtCore.QSize(16777215, 20))
         self.STOCK4_TotalBuy2_label.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.STOCK4_TotalBuy2_label.setText("")
-        self.STOCK4_TotalBuy2_label.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignVCenter)
+        self.STOCK4_TotalBuy2_label.setAlignment(QtCore.Qt.AlignLeading | QtCore.Qt.AlignLeft | QtCore.Qt.AlignVCenter)
         self.STOCK4_TotalBuy2_label.setObjectName("STOCK4_TotalBuy2_label")
         self.verticalLayout_17.addWidget(self.STOCK4_TotalBuy2_label)
         self.STOCK4_SELL2_PRICE_lineEdit = QtWidgets.QLineEdit(self.frame_33)
@@ -1012,7 +1013,7 @@ class Ui_MainWindow(object):
         self.label_51.setAlignment(QtCore.Qt.AlignCenter)
         self.label_51.setObjectName("label_51")
         self.horizontalLayout_10.addWidget(self.label_51)
-        self.verticalLayout_8.addWidget(self.frame_22, 0, QtCore.Qt.AlignHCenter|QtCore.Qt.AlignTop)
+        self.verticalLayout_8.addWidget(self.frame_22, 0, QtCore.Qt.AlignHCenter | QtCore.Qt.AlignTop)
         self.STOCK5_frame = QtWidgets.QFrame(self.frame_12)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Expanding)
         sizePolicy.setHorizontalStretch(0)
@@ -1034,61 +1035,61 @@ class Ui_MainWindow(object):
         self.label_50 = QtWidgets.QLabel(self.frame_34)
         self.label_50.setMinimumSize(QtCore.QSize(0, 20))
         self.label_50.setMaximumSize(QtCore.QSize(16777215, 20))
-        self.label_50.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
+        self.label_50.setAlignment(QtCore.Qt.AlignRight | QtCore.Qt.AlignTrailing | QtCore.Qt.AlignVCenter)
         self.label_50.setObjectName("label_50")
         self.verticalLayout_18.addWidget(self.label_50)
         self.label_58 = QtWidgets.QLabel(self.frame_34)
         self.label_58.setMinimumSize(QtCore.QSize(0, 20))
         self.label_58.setMaximumSize(QtCore.QSize(16777215, 20))
-        self.label_58.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
+        self.label_58.setAlignment(QtCore.Qt.AlignRight | QtCore.Qt.AlignTrailing | QtCore.Qt.AlignVCenter)
         self.label_58.setObjectName("label_58")
         self.verticalLayout_18.addWidget(self.label_58)
         self.label_59 = QtWidgets.QLabel(self.frame_34)
         self.label_59.setMinimumSize(QtCore.QSize(0, 20))
         self.label_59.setMaximumSize(QtCore.QSize(16777215, 20))
-        self.label_59.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
+        self.label_59.setAlignment(QtCore.Qt.AlignRight | QtCore.Qt.AlignTrailing | QtCore.Qt.AlignVCenter)
         self.label_59.setObjectName("label_59")
         self.verticalLayout_18.addWidget(self.label_59)
         self.label_60 = QtWidgets.QLabel(self.frame_34)
         self.label_60.setMinimumSize(QtCore.QSize(0, 20))
         self.label_60.setMaximumSize(QtCore.QSize(16777215, 20))
-        self.label_60.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
+        self.label_60.setAlignment(QtCore.Qt.AlignRight | QtCore.Qt.AlignTrailing | QtCore.Qt.AlignVCenter)
         self.label_60.setObjectName("label_60")
         self.verticalLayout_18.addWidget(self.label_60)
         self.label_55 = QtWidgets.QLabel(self.frame_34)
         self.label_55.setMinimumSize(QtCore.QSize(0, 20))
         self.label_55.setMaximumSize(QtCore.QSize(16777215, 20))
-        self.label_55.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
+        self.label_55.setAlignment(QtCore.Qt.AlignRight | QtCore.Qt.AlignTrailing | QtCore.Qt.AlignVCenter)
         self.label_55.setObjectName("label_55")
         self.verticalLayout_18.addWidget(self.label_55)
         self.label_56 = QtWidgets.QLabel(self.frame_34)
         self.label_56.setMinimumSize(QtCore.QSize(0, 20))
         self.label_56.setMaximumSize(QtCore.QSize(16777215, 20))
-        self.label_56.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
+        self.label_56.setAlignment(QtCore.Qt.AlignRight | QtCore.Qt.AlignTrailing | QtCore.Qt.AlignVCenter)
         self.label_56.setObjectName("label_56")
         self.verticalLayout_18.addWidget(self.label_56)
         self.label_54 = QtWidgets.QLabel(self.frame_34)
         self.label_54.setMinimumSize(QtCore.QSize(0, 20))
         self.label_54.setMaximumSize(QtCore.QSize(16777215, 20))
-        self.label_54.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
+        self.label_54.setAlignment(QtCore.Qt.AlignRight | QtCore.Qt.AlignTrailing | QtCore.Qt.AlignVCenter)
         self.label_54.setObjectName("label_54")
         self.verticalLayout_18.addWidget(self.label_54)
         self.label_53 = QtWidgets.QLabel(self.frame_34)
         self.label_53.setMinimumSize(QtCore.QSize(0, 20))
         self.label_53.setMaximumSize(QtCore.QSize(16777215, 20))
-        self.label_53.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
+        self.label_53.setAlignment(QtCore.Qt.AlignRight | QtCore.Qt.AlignTrailing | QtCore.Qt.AlignVCenter)
         self.label_53.setObjectName("label_53")
         self.verticalLayout_18.addWidget(self.label_53)
         self.label_52 = QtWidgets.QLabel(self.frame_34)
         self.label_52.setMinimumSize(QtCore.QSize(0, 20))
         self.label_52.setMaximumSize(QtCore.QSize(16777215, 20))
-        self.label_52.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
+        self.label_52.setAlignment(QtCore.Qt.AlignRight | QtCore.Qt.AlignTrailing | QtCore.Qt.AlignVCenter)
         self.label_52.setObjectName("label_52")
         self.verticalLayout_18.addWidget(self.label_52)
         self.label_57 = QtWidgets.QLabel(self.frame_34)
         self.label_57.setMinimumSize(QtCore.QSize(0, 20))
         self.label_57.setMaximumSize(QtCore.QSize(16777215, 20))
-        self.label_57.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
+        self.label_57.setAlignment(QtCore.Qt.AlignRight | QtCore.Qt.AlignTrailing | QtCore.Qt.AlignVCenter)
         self.label_57.setObjectName("label_57")
         self.verticalLayout_18.addWidget(self.label_57)
         self.horizontalLayout_16.addWidget(self.frame_34)
@@ -1119,7 +1120,7 @@ class Ui_MainWindow(object):
         self.STOCK5_TotalBuy1_label.setMaximumSize(QtCore.QSize(16777215, 20))
         self.STOCK5_TotalBuy1_label.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.STOCK5_TotalBuy1_label.setText("")
-        self.STOCK5_TotalBuy1_label.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignVCenter)
+        self.STOCK5_TotalBuy1_label.setAlignment(QtCore.Qt.AlignLeading | QtCore.Qt.AlignLeft | QtCore.Qt.AlignVCenter)
         self.STOCK5_TotalBuy1_label.setObjectName("STOCK5_TotalBuy1_label")
         self.verticalLayout_19.addWidget(self.STOCK5_TotalBuy1_label)
         self.STOCK5_SELL1_PRICE_lineEdit = QtWidgets.QLineEdit(self.frame_35)
@@ -1144,7 +1145,7 @@ class Ui_MainWindow(object):
         self.STOCK5_TotalBuy2_label.setMaximumSize(QtCore.QSize(16777215, 20))
         self.STOCK5_TotalBuy2_label.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.STOCK5_TotalBuy2_label.setText("")
-        self.STOCK5_TotalBuy2_label.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignVCenter)
+        self.STOCK5_TotalBuy2_label.setAlignment(QtCore.Qt.AlignLeading | QtCore.Qt.AlignLeft | QtCore.Qt.AlignVCenter)
         self.STOCK5_TotalBuy2_label.setObjectName("STOCK5_TotalBuy2_label")
         self.verticalLayout_19.addWidget(self.STOCK5_TotalBuy2_label)
         self.STOCK5_SELL2_PRICE_lineEdit = QtWidgets.QLineEdit(self.frame_35)
@@ -1192,7 +1193,7 @@ class Ui_MainWindow(object):
         self.label_62.setAlignment(QtCore.Qt.AlignCenter)
         self.label_62.setObjectName("label_62")
         self.horizontalLayout_11.addWidget(self.label_62)
-        self.verticalLayout_7.addWidget(self.frame_24, 0, QtCore.Qt.AlignHCenter|QtCore.Qt.AlignTop)
+        self.verticalLayout_7.addWidget(self.frame_24, 0, QtCore.Qt.AlignHCenter | QtCore.Qt.AlignTop)
         self.STOCK6_frame = QtWidgets.QFrame(self.frame_13)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Expanding)
         sizePolicy.setHorizontalStretch(0)
@@ -1214,61 +1215,61 @@ class Ui_MainWindow(object):
         self.label_61 = QtWidgets.QLabel(self.frame_36)
         self.label_61.setMinimumSize(QtCore.QSize(0, 20))
         self.label_61.setMaximumSize(QtCore.QSize(16777215, 20))
-        self.label_61.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
+        self.label_61.setAlignment(QtCore.Qt.AlignRight | QtCore.Qt.AlignTrailing | QtCore.Qt.AlignVCenter)
         self.label_61.setObjectName("label_61")
         self.verticalLayout_20.addWidget(self.label_61)
         self.label_69 = QtWidgets.QLabel(self.frame_36)
         self.label_69.setMinimumSize(QtCore.QSize(0, 20))
         self.label_69.setMaximumSize(QtCore.QSize(16777215, 20))
-        self.label_69.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
+        self.label_69.setAlignment(QtCore.Qt.AlignRight | QtCore.Qt.AlignTrailing | QtCore.Qt.AlignVCenter)
         self.label_69.setObjectName("label_69")
         self.verticalLayout_20.addWidget(self.label_69)
         self.label_70 = QtWidgets.QLabel(self.frame_36)
         self.label_70.setMinimumSize(QtCore.QSize(0, 20))
         self.label_70.setMaximumSize(QtCore.QSize(16777215, 20))
-        self.label_70.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
+        self.label_70.setAlignment(QtCore.Qt.AlignRight | QtCore.Qt.AlignTrailing | QtCore.Qt.AlignVCenter)
         self.label_70.setObjectName("label_70")
         self.verticalLayout_20.addWidget(self.label_70)
         self.label_71 = QtWidgets.QLabel(self.frame_36)
         self.label_71.setMinimumSize(QtCore.QSize(0, 20))
         self.label_71.setMaximumSize(QtCore.QSize(16777215, 20))
-        self.label_71.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
+        self.label_71.setAlignment(QtCore.Qt.AlignRight | QtCore.Qt.AlignTrailing | QtCore.Qt.AlignVCenter)
         self.label_71.setObjectName("label_71")
         self.verticalLayout_20.addWidget(self.label_71)
         self.label_66 = QtWidgets.QLabel(self.frame_36)
         self.label_66.setMinimumSize(QtCore.QSize(0, 20))
         self.label_66.setMaximumSize(QtCore.QSize(16777215, 20))
-        self.label_66.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
+        self.label_66.setAlignment(QtCore.Qt.AlignRight | QtCore.Qt.AlignTrailing | QtCore.Qt.AlignVCenter)
         self.label_66.setObjectName("label_66")
         self.verticalLayout_20.addWidget(self.label_66)
         self.label_67 = QtWidgets.QLabel(self.frame_36)
         self.label_67.setMinimumSize(QtCore.QSize(0, 20))
         self.label_67.setMaximumSize(QtCore.QSize(16777215, 20))
-        self.label_67.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
+        self.label_67.setAlignment(QtCore.Qt.AlignRight | QtCore.Qt.AlignTrailing | QtCore.Qt.AlignVCenter)
         self.label_67.setObjectName("label_67")
         self.verticalLayout_20.addWidget(self.label_67)
         self.label_65 = QtWidgets.QLabel(self.frame_36)
         self.label_65.setMinimumSize(QtCore.QSize(0, 20))
         self.label_65.setMaximumSize(QtCore.QSize(16777215, 20))
-        self.label_65.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
+        self.label_65.setAlignment(QtCore.Qt.AlignRight | QtCore.Qt.AlignTrailing | QtCore.Qt.AlignVCenter)
         self.label_65.setObjectName("label_65")
         self.verticalLayout_20.addWidget(self.label_65)
         self.label_64 = QtWidgets.QLabel(self.frame_36)
         self.label_64.setMinimumSize(QtCore.QSize(0, 20))
         self.label_64.setMaximumSize(QtCore.QSize(16777215, 20))
-        self.label_64.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
+        self.label_64.setAlignment(QtCore.Qt.AlignRight | QtCore.Qt.AlignTrailing | QtCore.Qt.AlignVCenter)
         self.label_64.setObjectName("label_64")
         self.verticalLayout_20.addWidget(self.label_64)
         self.label_63 = QtWidgets.QLabel(self.frame_36)
         self.label_63.setMinimumSize(QtCore.QSize(0, 20))
         self.label_63.setMaximumSize(QtCore.QSize(16777215, 20))
-        self.label_63.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
+        self.label_63.setAlignment(QtCore.Qt.AlignRight | QtCore.Qt.AlignTrailing | QtCore.Qt.AlignVCenter)
         self.label_63.setObjectName("label_63")
         self.verticalLayout_20.addWidget(self.label_63)
         self.label_68 = QtWidgets.QLabel(self.frame_36)
         self.label_68.setMinimumSize(QtCore.QSize(0, 20))
         self.label_68.setMaximumSize(QtCore.QSize(16777215, 20))
-        self.label_68.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
+        self.label_68.setAlignment(QtCore.Qt.AlignRight | QtCore.Qt.AlignTrailing | QtCore.Qt.AlignVCenter)
         self.label_68.setObjectName("label_68")
         self.verticalLayout_20.addWidget(self.label_68)
         self.horizontalLayout_17.addWidget(self.frame_36)
@@ -1300,7 +1301,7 @@ class Ui_MainWindow(object):
         self.STOCK6_TotalBuy1_label.setMaximumSize(QtCore.QSize(16777215, 20))
         self.STOCK6_TotalBuy1_label.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.STOCK6_TotalBuy1_label.setText("")
-        self.STOCK6_TotalBuy1_label.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignVCenter)
+        self.STOCK6_TotalBuy1_label.setAlignment(QtCore.Qt.AlignLeading | QtCore.Qt.AlignLeft | QtCore.Qt.AlignVCenter)
         self.STOCK6_TotalBuy1_label.setObjectName("STOCK6_TotalBuy1_label")
         self.verticalLayout_21.addWidget(self.STOCK6_TotalBuy1_label)
         self.STOCK6_SELL1_PRICE_lineEdit = QtWidgets.QLineEdit(self.frame_37)
@@ -1325,7 +1326,7 @@ class Ui_MainWindow(object):
         self.STOCK6_TotalBuy2_label.setMaximumSize(QtCore.QSize(16777215, 20))
         self.STOCK6_TotalBuy2_label.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.STOCK6_TotalBuy2_label.setText("")
-        self.STOCK6_TotalBuy2_label.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignVCenter)
+        self.STOCK6_TotalBuy2_label.setAlignment(QtCore.Qt.AlignLeading | QtCore.Qt.AlignLeft | QtCore.Qt.AlignVCenter)
         self.STOCK6_TotalBuy2_label.setObjectName("STOCK6_TotalBuy2_label")
         self.verticalLayout_21.addWidget(self.STOCK6_TotalBuy2_label)
         self.STOCK6_SELL2_PRICE_lineEdit = QtWidgets.QLineEdit(self.frame_37)
@@ -1440,8 +1441,6 @@ class Ui_MainWindow(object):
         self.tabWidget.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
-
-
         # ***** John Start Copy *****   ShowGraphStockToAnalyze_pushButton
 
         # self.START_pushButton.clicked.connect(lambda: START(option=(ui.comboBox.currentText())))    # START button
@@ -1452,8 +1451,9 @@ class Ui_MainWindow(object):
             lambda: self.algoDoubleVolume95PercentAverage())  # ALGO button do checking
         self.ShowGraph_pushButton.clicked.connect(
             lambda: self.generate_plot(algoPick3DArray=glob_mostActiveDoubleVolume3DArray))  # GRAPH button
-        self.ShowGraphStockToAnalyze_pushButton.clicked.connect(lambda: self.stockToAnalyze())  # custom stock button to analyze generate 3D Array
-        #self.ShowGraphStockToAnalyze_pushButton.clicked.connect(lambda: self.generate_plot(algoPick3DArray=glob_stockToAnalyze3DArray))  # Custom stock graph button
+        self.ShowGraphStockToAnalyze_pushButton.clicked.connect(
+            lambda: self.stockToAnalyze())  # custom stock button to analyze generate 3D Array
+        # self.ShowGraphStockToAnalyze_pushButton.clicked.connect(lambda: self.generate_plot(algoPick3DArray=glob_stockToAnalyze3DArray))  # Custom stock graph button
 
         # if self.STOCK1_BUY1_PRICE_lineEdit.textChanged
 
@@ -1602,8 +1602,8 @@ class Ui_MainWindow(object):
                         # check if current volume has more than doubled the average volume of last 29 days
                         volume_factor = round(mostActiveVolumeArray[0] / averageVolume29Days, 2)
                         if volume_factor > 2:
-                            if mostActiveAverageArray[0] * mostActiveVolumeArray[0] > 10000000: # 10M
-                            # if mostActiveAverageArray[0] * mostActiveVolumeArray[0] > 5000000:  # 5M
+                            if mostActiveAverageArray[0] * mostActiveVolumeArray[0] > 10000000:  # 10M
+                                # if mostActiveAverageArray[0] * mostActiveVolumeArray[0] > 5000000:  # 5M
                                 # if mostActiveAverageArray[0] * mostActiveVolumeArray[0] > 1000000:  # 1M
                                 sumAveragePrice = 0
                                 for avgPrice in mostActiveAverageArray:
@@ -2232,13 +2232,15 @@ class Ui_MainWindow(object):
         try:
             wait.until(EC.visibility_of_element_located((
                 By.XPATH,
-                '//*[@id="txtHint1"]/div/table/tbody/tr/td[2]/table/tbody/tr/td[2]/table/tbody/tr[15]/td[1]/font')))    # board lot text
+                '//*[@id="txtHint1"]/div/table/tbody/tr/td[2]/table/tbody/tr/td[2]/table/tbody/tr[15]/td[1]/font')))  # board lot text
             wait.until(EC.visibility_of_element_located((
                 By.XPATH,
-                '//*[@id="txtHint1"]/div/table/tbody/tr/td[2]/table/tbody/tr/td[2]/table/tbody/tr[15]/td[2]/font')))    # board lot val
+                '//*[@id="txtHint1"]/div/table/tbody/tr/td[2]/table/tbody/tr/td[2]/table/tbody/tr[15]/td[2]/font')))  # board lot val
             boardLotText = browser.find_element(by=By.XPATH,
                                                 value='//*[@id="txtHint1"]/div/table/tbody/tr/td[2]/table/tbody/tr/td[2]/table/tbody/tr[15]/td[1]/font').text  # board lot text
-            boardLotVal = int(browser.find_element(by=By.XPATH, value='//*[@id="txtHint1"]/div/table/tbody/tr/td[2]/table/tbody/tr/td[2]/table/tbody/tr[15]/td[2]/font').text.replace(",", ""))  # board lot val
+            boardLotVal = int(browser.find_element(by=By.XPATH,
+                                                   value='//*[@id="txtHint1"]/div/table/tbody/tr/td[2]/table/tbody/tr/td[2]/table/tbody/tr[15]/td[2]/font').text.replace(
+                ",", ""))  # board lot val
             # if boardLotText != "BoardLot":
             #     logging.error('board lot text find failed')
             #     browser.refresh()
@@ -2372,13 +2374,15 @@ class Ui_MainWindow(object):
         try:
             wait.until(EC.visibility_of_element_located((
                 By.XPATH,
-                '//*[@id="txtHint1"]/div/table/tbody/tr/td[2]/table/tbody/tr/td[2]/table/tbody/tr[15]/td[1]/font')))    # board lot text
+                '//*[@id="txtHint1"]/div/table/tbody/tr/td[2]/table/tbody/tr/td[2]/table/tbody/tr[15]/td[1]/font')))  # board lot text
             wait.until(EC.visibility_of_element_located((
                 By.XPATH,
-                '//*[@id="txtHint1"]/div/table/tbody/tr/td[2]/table/tbody/tr/td[2]/table/tbody/tr[15]/td[2]/font')))    # board lot val
+                '//*[@id="txtHint1"]/div/table/tbody/tr/td[2]/table/tbody/tr/td[2]/table/tbody/tr[15]/td[2]/font')))  # board lot val
             boardLotText = browser.find_element(by=By.XPATH,
                                                 value='//*[@id="txtHint1"]/div/table/tbody/tr/td[2]/table/tbody/tr/td[2]/table/tbody/tr[15]/td[1]/font').text  # board lot text
-            boardLotVal = int(browser.find_element(by=By.XPATH, value='//*[@id="txtHint1"]/div/table/tbody/tr/td[2]/table/tbody/tr/td[2]/table/tbody/tr[15]/td[2]/font').text.replace(",", ""))  # board lot val
+            boardLotVal = int(browser.find_element(by=By.XPATH,
+                                                   value='//*[@id="txtHint1"]/div/table/tbody/tr/td[2]/table/tbody/tr/td[2]/table/tbody/tr[15]/td[2]/font').text.replace(
+                ",", ""))  # board lot val
             # if boardLotText != "BoardLot":
             #     logging.error('board lot text find failed')
             #     browser.refresh()
@@ -2531,7 +2535,7 @@ class Ui_MainWindow(object):
                 browser.find_element(by=By.XPATH,
                                      value='//*[@id="DIV2"]/div[2]/center/table/tbody/tr/td/form/table/tbody/tr/td[3]/input[1]').click()
 
-    def checkTime(self):    # loop if not yet trading hours
+    def checkTime(self):  # loop if not yet trading hours
         while True:  # loop if not trading hours
             now = datetime.datetime.now()
             today930am = now.replace(hour=9, minute=31, second=0, microsecond=0)
@@ -2568,39 +2572,38 @@ class Ui_MainWindow(object):
                                                     if self.sell_setup():  # sell if there is a need to sell
                                                         pass
                                                     else:
-                                                        #browser.close()
+                                                        # browser.close()
                                                         break
                                                 else:
-                                                    #browser.close()
+                                                    # browser.close()
                                                     break
                                             else:
-                                                #browser.close()
+                                                # browser.close()
                                                 break
                                         else:
-                                            #browser.close()
+                                            # browser.close()
                                             break
                                     else:
-                                        #browser.close()
+                                        # browser.close()
                                         break
                                 else:
-                                    #browser.close()
+                                    # browser.close()
                                     break
                             else:
-                                #browser.close()
+                                # browser.close()
                                 break
                         else:
-                            #browser.close()
+                            # browser.close()
                             break
                     time.sleep(1)
                     time_elapse = time.time() - time_start
 
             else:
-                #browser.close()
+                # browser.close()
                 continue
             time.sleep(1)
 
     # ***** John End Copy *****
-
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
@@ -2683,16 +2686,16 @@ class Ui_MainWindow(object):
         self.comboBox.setItemText(3, _translate("MainWindow", "CHECK_SELL"))
         self.RunAlgo_pushButton.setText(_translate("MainWindow", "Run ALGO"))
         self.label_11.setText(_translate("MainWindow", "ALGO Suggestion\n"
-"Show Graph"))
+                                                       "Show Graph"))
         self.label_10.setText(_translate("MainWindow", "Most Active\n"
-"Stocks"))
+                                                       "Stocks"))
         self.groupBox_2.setTitle(_translate("MainWindow", "Choose Source"))
         self.pesobility_radioButton.setText(_translate("MainWindow", "Pesobility"))
         self.pse_radioButton.setText(_translate("MainWindow", "PSE"))
         self.notepad_radioButton.setText(_translate("MainWindow", "Notepad"))
         self.ShowGraph_pushButton.setText(_translate("MainWindow", "Show Graph"))
         self.ShowGraphStockToAnalyze_pushButton.setText(_translate("MainWindow", "Analyze Stock\n"
-"Graph"))
+                                                                                 "Graph"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), _translate("MainWindow", "ALGO and Graph"))
 
         # john start copy
@@ -2768,6 +2771,7 @@ class Ui_MainWindow(object):
             pass
 
         # john end copy
+
 
 def refresh_page(stock_code_refresh_page):
     browser.switch_to.default_content()
@@ -2858,15 +2862,16 @@ def refresh_page(stock_code_refresh_page):
             return (
                 iframe_headern, iframe_main, iframe_body)
 
+
 # add function to check only on valid time
 def checkValidTime():
     # to add body of function
     pass
 
 
-
 if __name__ == "__main__":
     import sys
+
     app = QtWidgets.QApplication(sys.argv)
     MainWindow = QtWidgets.QMainWindow()
     ui = Ui_MainWindow()
